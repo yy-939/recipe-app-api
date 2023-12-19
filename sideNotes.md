@@ -18,7 +18,7 @@
 **TDD(test driven development)**: write test first, then write code
 
 ## 1. SetUp
-### 1.3 Project Setup
+### 1.1 Project Setup
 #### 1.3.1 Create Docker file
 The **Dockerfile** is used to build our image, which contains a mini Linux Operating System with all the dependencies needed to run our project.  
 The **Docker Compose** is a tool for defining and running multi-container Docker applications. It allows you to define an entire application stack, including services, networks, and volumes, in a single *docker-compose.yml* file. 
@@ -36,3 +36,29 @@ use **flake8**. *requirments.dev.txt*: requirements used during the development 
   
 ***ctrl+c***  
 -> end the project  
+
+### 1.2 Github Actions
+- automation tool
+- run jobs when code changes
+- automate tasks
+### common uses:
+- handle developments
+- code linting
+- unit tests
+### how it work:
+**Trigger** (anything happends to your proj on Github) e.g. push trigger (push to github)
+-> set up **Job** when Trigger is hit e.g. run unit tests
+-> **Result** (successful/fail)
+
+### how to config it
+- create a config file at: .github/workflows/checks.yml:set triggers, set up unit tests
+***docker-compose run --rm app sh -c "python manage.py test"***
+-> run unit test for our project
+
+- configure Docker Hub authentication
+**access tokens**: a username and password that are set up specifically for automated tasks
+using Docker Hub access token, create a temporary password for logging into Docker Hub  
+-> go to Github project-Settings-Repository secrets, create a new repo secret using the temporary password
+
+
+
