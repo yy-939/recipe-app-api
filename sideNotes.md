@@ -127,7 +127,76 @@ use *unittest.mock*
 **import error:**
 - both tests/ dir & tests.py exist
 
+### 1.4 Database
+- Postgre SQL
+- Docker Compose
+  - reusable
+  - persistent data with volumes
+  - handles network config
+  - environment variable config
+
+&emsp;&emsp;**Docker Compose**  
+**Database** (Postgre SQL)&emsp;<->&emsp;**App** (Django)
+
+**Network connectivity**
+```
+services:
+  app:
+    depends_on:
+      - db
   
+  db:
+    image: postgres:13-alpine
+```
+- set *depends_on* on *app* service to start *db* first
+- Docker Compose creates a network
+- The *app* service can use *db* hostname
+
+**Volumes**
+- persistent data
+- map directory in container to local machine
+
+**Psycopg2**
+most popular PostgreSQL adaptor for Python
+
+**Problem with Docker Compose: Fix database race condition**
+- Using *depends_on* ensures **services** (e.g. your laptop) starts
+  - Does not ensure **application** (e.g. Postgres) is running
+- Solution
+  - Make Django "wait for db"
+    - check database availability
+    - continue when database ready
+  - Create custom Django management command
+
+#### 1.4.2 Database Migration
+**Django ORM**
+- Object Relational Mapper (ORM)
+- serves as a abstraction layer for data
+  - Django handles database structure and changes
+  - Focuse on Python code
+  - Use any database (within reason)
+**Using ORM**
+Define Models -> Generate migration files -> Setup database -> Store data
+**Models**
+- Each Model maps to a table
+- Models contains:
+  - Name
+  - Field
+  - Other metadata
+  - Custom Python logic
+**Creating Migration**
+- Ensure app is enabled in settings.py
+- Use Django CLI
+  - `python manage.py makemigrations`
+**Applying Migration**
+- Use Django CLI
+  - `python manage.py migrate`
+- run `wait for db` first, then run it 
+  - ```
+      command: >
+      sh -c "python manage.py wait_for_db &&
+             python manage.py migrate
+    ```
 
 
 
