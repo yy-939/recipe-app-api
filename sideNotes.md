@@ -197,9 +197,43 @@ Define Models -> Generate migration files -> Setup database -> Store data
       sh -c "python manage.py wait_for_db &&
              python manage.py migrate
     ```
+  
+### 1.5 Create Use Model
+**How to customize user model**
+- Create model
+  - Base from `AbstractBaseUser` and `PermissionMixin`
+- Create custom manager
+  - Used for CLI integration
+- Set `AUTH_USER_MODEL` in setting.py
+- Create and Run migrations
+**AbstractBaseUser**
+- Provides features for authentication
+- doesn't include fields
+**PermissionMixin**
+- Support for Django permission system
+- Includes fields and methods
+**Common Issues**
+Running migrations **before** setting custom models
 
-
-
+**Design User Models**
+- User Fields
+  - email (EmailField)
+  - name (CharField)
+  - is_active (BooleanField)
+  - is_staff (BooleanField)
+- User Model Manager
+  - Used to manage objects
+  - Custom logic for creating objects
+    - hash password
+  - Uased by Django CLI
+    - create super user
+- BaseUser Manager
+  - Base class for managing users
+  - useful helper methods
+    - `normalize_email`: for storing emails consistently
+  - methods we will define
+    - `create_user`:called when create a user
+    - `create_superuser`: used by CLI to create a superuser (admin)
 
 
 
