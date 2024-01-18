@@ -1,13 +1,13 @@
 """
 Tests for models.
 """
-from unittest.mock import patch
-from decimal import Decimal
+# from unittest.mock import patch
+# from decimal import Decimal
 
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
-from core import models
+# from core import models
 
 
 # def create_user(email='user@example.com', password='testpass123'):
@@ -29,7 +29,7 @@ class ModelTests(TestCase):
 
         self.assertEqual(user.email, email)
         self.assertTrue(user.check_password(password))
-    
+
     def test_new_user_email_normalized(self):
         """Test email is normalized for new users."""
         sample_emails = [

@@ -28,13 +28,16 @@ The **Docker Compose** is a tool for defining and running multi-container Docker
 use **flake8**. *requirments.dev.txt*: requirements used during the development but not in actual application: only need to format code when developmenting. 
 
 #### 1.1.3 Create Django Project
-***docker-compose run --rm app sh -c "django-admin startproject app ."***  
+`docker-compose run --rm app sh -c "django-admin startproject app ."` 
 -> auto add Django Project to the root of the project  
-  
-***docker-compose up***  
+
+`docker-compose build`
+-> build container (when you add new dep (e.g. modify requirements), need to rebuild)
+
+`docker-compose up` 
 -> start the project at: 127.0.0.1:8000/localhost:8000
   
-***ctrl+c***  
+`ctrl+c` 
 -> end the project  
 
 ### 1.2 Github Actions
@@ -114,9 +117,9 @@ use *unittest.mock*
 - check results
 - override authentication
 **Use APIClient**
-- import APIClient (*from rest_framework.test import APIClient*)
-- create client (*client = APIClient*)
-- make requests (*res = client.get('/greetings/')*)
+- import APIClient (`from rest_framework.test import APIClient`)
+- create client (`client = APIClient`)
+- make requests (`res = client.get('/greetings/')`)
 - check results
 
 #### 1.3.2 Common Issues
@@ -234,6 +237,62 @@ Running migrations **before** setting custom models
   - methods we will define
     - `create_user`:called when create a user
     - `create_superuser`: used by CLI to create a superuser (admin)
+
+`docker-compose run --rm app sh -c "python manage.py createsuperuser"`
+-> create a admin user
+
+### 1.6 Django Admin
+- Graphical User Interface for models
+  - Create, Read, Update, Delete
+- Very little coding required
+**How to enable Django admin**
+- Enabled per model
+- inside admin.py
+  - admin.site.register(model_you_want_to_register)
+**Customising**
+- Create class based off `ModelAdmin` or `UserAdmin`
+- Override/set class variables
+
+### 2. API documentation
+**Why document?**
+- APIs are designed for developers to use
+- Need to know how to use it
+- an API is only as good as its documentation
+**What to document?**
+- Everything needed to use the API
+- Available endpoints (paths)
+  - /api/recipes
+- Supported methods
+  - GET, POST, PUT, PATH, DELETE
+- Format of payloads (inputs)
+  - parameters
+  - POST json format
+- Format of responses (outputs)
+  - Response json format
+- Authentication process
+**Options for documentation**
+- Manual
+  - word doc
+  - markdown
+- **Automated**
+  - Use metadata from code (comments)
+  - Generate documentation pages
+
+### 2.1 Auto docs with DRF
+**Docs in DRF**
+- Auto generate docs (with third party library)
+  - library `drf-spectacular`
+- Generates *schema* (document in format of json or YAML)
+- Browsable web interface
+  - Make test requests
+  - Handle auth
+**How it works?**
+1. generate "**schema**" file (opening up in tools (e.g. Swagger) that can convert it into human readable docs)
+2. parse schema into GUI
+**Using a Schema**
+- Download and run in local Swagger instance
+- Serve Swagger with API
+
 
 
 
