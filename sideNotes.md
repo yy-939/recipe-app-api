@@ -31,6 +31,9 @@ use **flake8**. *requirments.dev.txt*: requirements used during the development 
 `docker-compose run --rm app sh -c "django-admin startproject app ."` 
 -> auto add Django Project to the root of the project  
 
+`docker-compose run --rm app sh -c "python manage.py startapp user"`
+-> create a new app in Django Project (/app/user)
+
 `docker-compose build`
 -> build container (when you add new dep (e.g. modify requirements), need to rebuild)
 
@@ -293,6 +296,54 @@ Running migrations **before** setting custom models
 - Download and run in local Swagger instance
 - Serve Swagger with API
 
+`docker-compose up`: up the server, and check API at : http://127.0.0.1:8000/api/docs/
+
+### 2.2 User API
+- User registration
+- Creating auth token
+- Viewing/updating profile
+
+**Endpoints**
+- `user/create/`
+  - POST - register a new user
+- `user/token/`
+  - POST - Create new token
+- `user/me/`
+  - PUT/PATCH - Update profile 
+    - PUT-change everything including username/password
+    - PATCH-only change one field, e.g. only username
+  - GET - View profile
+
+**Types of authentication**
+- Basic (BAD!)
+  - Send username and password with each request 
+  - Requires the client stores the user username and password
+- **Token** (This Proj use this)
+  - Use a token in the HTTP header
+  - Balance of simplicity and security
+  - Well support by most clients
+- JSON Web Token (JWT)
+  - Use an access and refresh token
+- Session
+  - Use cookies
+
+**How Token authentication works**
+Create token (Post username/password) -> store token on client -> include token in HTTP headers
+**Pros and cons of Token authentication**
+Pros:
+- Supported out of the box
+- Simple to use
+- Supported by all clients
+- Avoid sending username/password each time
+Cons:
+- Token needs to be secure
+- Requires database requests
+
+**Logging out**
+works by delete the token
+- Why not use a logout API?
+  - Unreliable, cannot guarantee user will use this API
+  - NOT userful on API
 
 
 
