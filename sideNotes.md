@@ -345,7 +345,46 @@ works by delete the token
   - Unreliable, cannot guarantee user will use this API
   - NOT userful on API
 
+### 2.3 Recipe API
+- Create
+- List
+- View detail
+- Update
+- Delete
 
+**Endpoints**
+- /recipes/
+  - GET - List all recipes
+  - POST - Create recipe
+- /recipes/<recipe_id>/
+  - GET - View details of recipe
+  - PUT/PATCH - Update recipe
+  - DELETE - Delete recipe
+
+**What is View?**
+- Handles a request made to a URL
+- Django uses functions
+- DRF uses classes
+  - Reusable logic
+  - Override behaviour
+- DRF also supports decorators
+- **APIView and Viewsets** = DRF base classes
+
+**APIView v.s. Viewsets**
+**APIView:**
+- Focused around HTTP methods
+- class methods for HTTP methods
+  - GET, POST, PUT, PATCH, DELETE
+- Provide flexibility over URLs and logic
+- Useful for non CRUD APIs
+  - Avoid for simple Create, Read, Update, Delete APIs
+  - Bespoke 定做的 logic (e.g. auth, jobs, external apis)
+**Viewsets:**
+- Focused around actions
+  - Retrieve, list, update, partial update, destroy
+- Map to Django models
+- Use Routers to generate URLs
+- Greate for CRUD operations on models
 
 
 
