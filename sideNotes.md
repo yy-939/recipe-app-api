@@ -386,5 +386,92 @@ works by delete the token
 - Use Routers to generate URLs
 - Greate for CRUD operations on models
 
+### 2.4 Tag API
+- add ability to add recipe tags
+- create model for tags to store tag object
+- add tag API endpoints
+- update recipe endpoint
+  - adding and listings tags
+
+**Tag Model**
+- name: Name of tag to create
+- user: User who created/owns tag
+
+**Endpoints**
+- /api/recipe/tags
+  - POST - Create tag
+  - PUT/PATCH -Update tag
+  - DELETE - Remove tag
+  - GET - List available tags
+
+**Nested Serializers**
+- Serializer within a serializer
+- Used for fields which are objects
+- example nested data:
+```json response
+{
+  "title": "Some title",
+  "tags": [
+    {"name": "Tag 1"},
+    {"name": "Tag 2"}
+  ]
+}
+```
+
+**How to use nested serializers?**
+```python
+class TagSerializer(serializers.Serializer):
+  name = seralizers.CharField(max_length=100)
 
 
+class RecipeSerializer(serializers.Serializer):
+  title = seralizers.CharField(max_length=100)
+  user = seralizers.CharField(max_length=100)
+  tags = TagSerializer(many=True)
+```
+
+**Limitations**
+- Read-only by default
+- Custom logic to make writable
+
+
+### 2.5 Ingredients API
+- add ability to add ingredients to recipes
+- create model for ingredients to store ingredients object
+- add tag API endpoints
+- update recipe endpoint
+  - create ingredients
+  - manage ingredients
+
+**Ingredients Model**
+- name: Name of ingredient to create
+- user: User who created/owns ingredient
+
+**Endpoints**
+- /api/recipe/ingredients/
+  - GET - List ingredients
+- /api/recipe/ingredients/<id>/
+  - GET - Get ingredient details
+  - PUT/PATCH - Update ingredient
+  - DELETE - Remove ingredient
+- /api/recipe/
+  - POST - Create ingredients (as part of recipe)
+- /api/recipe/<id>/
+  - PUT/PATCH - Create or modify ingredients
+  
+**Refactoring**
+- restructure code
+  - easier to read
+  - more efficient
+  - less duplication
+- improve performance
+- does the same thing
+
+**TDD Refactoring**
+- TDD makes refactoring easy
+- Run tests to ensure code still works
+
+**Areas of refactoring**
+`TagViewSet / IngredientViewSet`
+  - Very similar code
+  - Refactor using inheritance
