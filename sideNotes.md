@@ -545,3 +545,77 @@ GET /static/media/recipe/123.jpg <- Django Dev Server <- /vol/static/media/123.j
   - Custom query params (filtering)
 - Use DRF Spectacular `extend_schema_view` decorator
 
+## 3. Deployment
+**Various ways to delopy Django**
+- Directly on a server
+  - Run directly on server
+  - Docker
+- Serverless Cloud
+  - Google Cloud Run / Google App Engine
+  - AWS Elastic Beanstalk / ECS Fargate
+  
+**How we'll deploy**
+- Single VPS(virtual private server) on AWS (EC2)
+- Docker/Docker compose
+
+### 3.1 Deploying Django
+1. Set up a proxy
+2. Handle static/media files
+3. Configuration
+
+**Components**
+Persistent Data (e.g. user upload an image, image stores in a persistent volume, not in container) <- Data <- Reverse Proxy (accepts requests) <- Requests <- Users
+WSGI (web server gateway interface: runs our python code that powers our Django Proj) <- App <- Reverse Proxy <- Requests <- Users
+
+**Why use a reverse proxy?**
+- Best practice when deploying Django
+- WSGI server great at executing python
+  - Not great at serving data
+- Web servers
+  - Serve data really efficiently
+
+**Applications we'll use**
+- nginx (web server)
+- uWSGI (for WSGI)
+- Docker Compose
+
+**Handling configuration**
+- How do we configure deployed app?
+  - can't put everything into Git
+- Various approaches
+  - **Environment variables**
+  - Secret managers
+
+**How configureation works?**
+- Create *.env* file on server
+- Set values in Docker Compose
+
+**Using Environment variables**
+- Store configuration in a file
+- Retrieve values with Docker Compose
+- Pass to applications
+
+**Example .env**
+```
+DB_NAME=dbname
+DB_USER=rootuser
+DB_PASS=changeme
+```
+**Example Docker Compose**
+```
+environment:
+- DB_HOST=db
+- DB_NAME=${DB_NAME}
+- DB_USER=${DB_USER}
+- DB_PASS=${DB_PASS}
+```
+**Example usage in Python**
+```python
+import os
+MY_CONFIG = os.environ.get("MY_CONFIG")
+```
+
+**Using AWS**
+- We'll host our app on AWS
+
+
