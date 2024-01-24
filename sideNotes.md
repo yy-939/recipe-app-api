@@ -43,6 +43,12 @@ use **flake8**. *requirments.dev.txt*: requirements used during the development 
 `ctrl+c` 
 -> end the project  
 
+**cmd on the server:**
+https://github.com/LondonAppDeveloper/build-a-backend-rest-api-with-python-django-advanced-resources/blob/main/deployment.md
+
+Our project is running at: ec2-13-250-103-60.ap-southeast-1.compute.amazonaws.com
+where you can find at aws->ec2->instance->networking tab->Public IPv4 DNS
+
 ### 1.2 Github Actions
 - automation tool
 - run jobs when code changes
